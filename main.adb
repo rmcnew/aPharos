@@ -14,19 +14,13 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package Numbers is
+with Ada.Text_IO;
+with Geometry; use Geometry;
+with Numbers; use Numbers;
 
-    subtype double is Long_Float range Long_Float'Range; -- No IEEE ideals
+procedure main is
+    p : Point := (x => 3.1, y => 4.2, z => 6.3);
+begin
+    Ada.Text_IO.Put_Line(Image(p));
+end main;
 
-    subtype interpolate_time is double range 0.0 .. 1.0;
-
-    x : constant := 1;
-    y : constant := 2;
-    z : constant := 3;
-    subtype index is Integer range x .. z;
-
-    function max(a : in double; b : in double) return double;
-
-    function min(a : in double; b : in double) return double;
-
-end Numbers;
