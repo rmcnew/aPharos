@@ -20,14 +20,16 @@ with Numbers; use Numbers;
 
 package Geometry is
 
+    package Double_Text_IO is new Ada.Text_IO.Float_IO(double); use Double_Text_IO;
+
     package aPharos_Arrays is new Ada.Numerics.Generic_Real_Arrays(Real => double); 
     use aPharos_Arrays;
 
-    subtype Point is aPharos_Arrays.Real_Vector(index);
+    type Point is new aPharos_Arrays.Real_Vector(index);
 
-    package double_Text_IO is new Ada.Text_IO.Float_IO(double); use double_Text_IO;
+    type Vector is new aPharos_Arrays.Real_Vector(index);
 
-    subtype Vector is aPharos_Arrays.Real_Vector(index);
+    type Normal is new aPharos_Arrays.Real_Vector(index);
 
     function distance_squared(pointA : in Point; pointB : in Point) return double;
 
@@ -39,9 +41,9 @@ package Geometry is
 
     function min (pointA : in Point; pointB : in Point) return Point;
 
-    function plus (pointA : in Point; vectorA : in Vector) return Point; 
+    function "+" (pointA : in Point; vectorA : in Vector) return Point; 
 
-    function minus (pointA : in Point; vectorA : in Vector) return Point;
+    function "-" (pointA : in Point; vectorA : in Vector) return Point;
 
     function floor (pointA : in Point) return Point;
 
@@ -52,5 +54,27 @@ package Geometry is
     ORIGIN : constant Point := (x => 0.0, y => 0.0, z => 0.0);
 
     function vector_from_points(from : in Point; to : in Point) return Vector;
+
+    function "+" (vectorA : in Vector; normalA : in Normal) return Vector;
+
+    function "-" (vectorA : in Vector; normalA : in Normal) return Vector;
+
+    function magnitude(vectorA : in Vector) return double;
+
+    function normalize(vectorA : in Vector) return Vector;
+
+    function dot(vectorA : in Vector; vectorB : in Vector) return double;
+
+    function dot(vectorA : in Vector; normalA : in Normal) return double;
+
+	function angle_between(vectorA : in Vector; vectorB : in Vector) return double;
+
+	function is_orthogonal(vectorA : in Vector; vectorB : in Vector) return boolean;
+
+	function cross(vectorA : in Vector; vectorB : in Vector) return Vector;
+
+	function inverse(vectorA : in Vector) return Vector;	
+
+    function image (vectorA : in Vector) return String;
 
 end Geometry;

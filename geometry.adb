@@ -45,17 +45,17 @@ package body Geometry is
         return retVal;
     end min;
 
-    function plus (pointA : in Point; vectorA : in Vector) return Point is 
+    function "+" (pointA : in Point; vectorA : in Vector) return Point is 
         retVal : Point := (x => (pointA(x) + vectorA(x)), y => (pointA(y) + vectorA(y)), z => (pointA(z) + vectorA(z)) );
     begin
         return retVal;
-    end plus;
+    end "+";
 
-    function minus (pointA : in Point; vectorA : in Vector) return Point is
+    function "-" (pointA : in Point; vectorA : in Vector) return Point is
         retVal : Point := (x => pointA(x) - vectorA(x), y => pointA(y) - vectorA(y), z => pointA(z) - vectorA(z));
     begin
         return retVal;
-    end minus;
+    end "-";
 
     function floor (pointA : in Point) return Point is
         retVal : Point := (x => (pointA(x)) , y => (pointA(y)) , z => (pointA(z)) );
@@ -79,6 +79,74 @@ package body Geometry is
     begin
         return retVal;
     end vector_from_points;
+
+    function "+" (vectorA : in Vector; normalA : in Normal) return Vector is
+        retVal : Vector := (x => vectorA(x) + normalA(x), y => vectorA(y) + normalA(y), z => vectorA(z) + normalA(z) );
+    begin
+        return retVal;
+    end "+";
+
+    function "-" (vectorA : in Vector; normalA : in Normal) return Vector is
+        retVal : Vector := (x => vectorA(x) - normalA(x), y => vectorA(y) - normalA(y), z => vectorA(z) - normalA(z) );
+    begin
+        return retVal;
+    end "-";
+
+    function magnitude(vectorA : in Vector) return double is
+        retVal : double := Sqrt(vectorA(x)**2 + vectorA(y)**2 + vectorA(z)**2);
+    begin
+        return retVal;
+    end magnitude;
+
+    function normalize(vectorA : in Vector) return Vector is
+        mag : double := magnitude(vectorA);
+        retVal : Vector := (x => vectorA(x)/mag, y => vectorA(y)/mag, z => vectorA(z)/mag);
+    begin
+        return retVal;
+    end normalize;
+
+    function dot(vectorA : in Vector; vectorB : in Vector) return double is
+        retVal : double := (vectorA(x) * vectorB(x)) + (vectorA(y) * vectorB(y)) + (vectorA(z) * vectorB(z));
+    begin
+        return retVal;
+    end dot;
+
+    function dot(vectorA : in Vector; normalA : in Normal) return double is 
+        retVal : double := (vectorA(x) * normalA(x)) + (vectorA(y) * normalA(y)) + (vectorA(z) * normalA(z));
+    begin
+        return retVal;
+    end dot;
+
+	function angle_between(vectorA : in Vector; vectorB : in Vector) return double is
+		retVal : double := arccos( dot(vectorA, vectorB) / (magnitude(vectorA) * magnitude(vectorB)) );
+	begin
+		return retVal;
+	end angle_between;
+
+	function is_orthogonal(vectorA : in Vector; vectorB : in Vector) return boolean is
+		retVal : boolean := dot(vectorA, vectorB) = 0.0;
+	begin
+		return retVal;
+	end is_orthogonal;
+
+	function cross(vectorA : in Vector; vectorB : in Vector) return Vector is
+		retVal : Vector := (x => (vectorA(y) * vectorB(z) - vectorA(z) * vectorB(y)), 
+							y => (vectorA(z) * vectorB(x) - vectorA(x) * vectorB(z)), 
+							z => (vectorA(x) * vectorB(y) - vectorA(y) * vectorB(x)));
+	begin
+		return retVal;
+	end cross;
+
+	function inverse(vectorA : in Vector) return Vector is
+		retVal : Vector := (x => -vectorA(x), y => -vectorA(y), z => -vectorA(z));
+	begin
+		return retVal;
+	end inverse;
+
+    function image (vectorA : in Vector) return String is
+    begin
+        return "Vector (x => " & double'Image(vectorA(x)) & ", y => " & double'Image(vectorA(y)) & ", z => " & double'Image(vectorA(z)) & ")";
+    end image;
 
 
 end Geometry;

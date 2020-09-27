@@ -20,7 +20,9 @@ with Numbers; use Numbers;
 
 procedure main is
     p : Point := (x => 3.1, y => 4.2, z => 6.3);
+	v : Vector := (x => 1.0, y=> 1.0, z => 1.0);
 begin
     Ada.Text_IO.Put_Line(Image(p));
+	Ada.Text_IO.Put_Line(Image(v));
 end main;
 
