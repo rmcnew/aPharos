@@ -31,6 +31,9 @@ package Geometry is
 
     type Normal is new aPharos_Arrays.Real_Vector(index);
 
+    ORIGIN : constant Point := (x => 0.0, y => 0.0, z => 0.0);
+
+	-- Point functions
     function distance_squared(pointA : in Point; pointB : in Point) return double;
 
     function distance(pointA : in Point; pointB : in Point) return double;
@@ -51,7 +54,7 @@ package Geometry is
 
     function image (pointA : in Point) return String;
 
-    ORIGIN : constant Point := (x => 0.0, y => 0.0, z => 0.0);
+	-- Vector functions
 
     function vector_from_points(from : in Point; to : in Point) return Vector;
 
@@ -69,12 +72,38 @@ package Geometry is
 
 	function angle_between(vectorA : in Vector; vectorB : in Vector) return double;
 
-	function is_orthogonal(vectorA : in Vector; vectorB : in Vector) return boolean;
+	function orthogonal(vectorA : in Vector; vectorB : in Vector) return boolean;
 
 	function cross(vectorA : in Vector; vectorB : in Vector) return Vector;
 
 	function inverse(vectorA : in Vector) return Vector;	
 
     function image (vectorA : in Vector) return String;
+
+	-- Normal functions
+
+	function normal_from_points (from : in Point; to : in Point) return Normal;
+
+	function normal_from_vector (vectorA : in Vector) return Normal;
+
+	function "+" (normalA : in Normal; vectorA : in Vector) return Vector;
+
+	function "-" (normalA : in Normal; vectorA : in Vector) return Vector;
+
+	function magnitude(normalA : in Normal) return double;
+
+	function normalize(normalA : in Normal) return Normal;
+
+	function dot(normalA : in Normal; vectorA : in Vector) return double;
+
+	function orthogonal(normalA : in Normal; vectorA : in Vector) return boolean;
+
+	function cross(normalA : in Normal; vectorA : in Vector) return Vector;
+
+	function inverse(normalA : in Normal) return Normal;
+
+	function to_vector(normalA : in Normal) return Vector;
+
+	function image(normalA : in Normal) return String;
 
 end Geometry;

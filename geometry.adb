@@ -18,6 +18,8 @@ with Ada.Numerics.Long_Elementary_Functions; use Ada.Numerics.Long_Elementary_Fu
 
 package body Geometry is
 
+	-- Point functions
+
     function distance_squared(pointA : in Point; pointB : in Point) return double is
     begin
         return (pointA(x) - pointB(x))**2 + (pointA(y) - pointB(y))**2 + (pointA(z) - pointB(z))**2;
@@ -74,6 +76,8 @@ package body Geometry is
         return "Point (x => " & double'Image(pointA(x)) & ", y => " & double'Image(pointA(y)) & ", z => " & double'Image(pointA(z)) & ")";
     end image;
 
+	-- Vector functions
+
     function vector_from_points(from : in Point; to : in Point) return Vector is
         retVal : Vector := (x => (to(x) - from(x)), y => (to(y) - from(y)), z => (to(z) - from(z)) ); 
     begin
@@ -123,11 +127,11 @@ package body Geometry is
 		return retVal;
 	end angle_between;
 
-	function is_orthogonal(vectorA : in Vector; vectorB : in Vector) return boolean is
+	function orthogonal(vectorA : in Vector; vectorB : in Vector) return boolean is
 		retVal : boolean := dot(vectorA, vectorB) = 0.0;
 	begin
 		return retVal;
-	end is_orthogonal;
+	end orthogonal;
 
 	function cross(vectorA : in Vector; vectorB : in Vector) return Vector is
 		retVal : Vector := (x => (vectorA(y) * vectorB(z) - vectorA(z) * vectorB(y)), 
@@ -148,5 +152,81 @@ package body Geometry is
         return "Vector (x => " & double'Image(vectorA(x)) & ", y => " & double'Image(vectorA(y)) & ", z => " & double'Image(vectorA(z)) & ")";
     end image;
 
+	-- Normal functions
+
+	function normal_from_points (from : in Point; to : in Point) return Normal is
+		retVal : Normal := (x => to(x) - from(x), y => to(y) - from(y), z => to(z) - from(z));
+	begin
+		return retVal;
+	end normal_from_points;
+
+	function normal_from_vector (vectorA : in Vector) return Normal is
+		retVal : Normal := (x => vectorA(x), y => vectorA(y), z => vectorA(z));
+	begin
+		return retVal;
+	end normal_from_vector;
+
+	function "+" (normalA : in Normal; vectorA : in Vector) return Vector is
+		retVal : Vector := (x => normalA(x) + vectorA(x), y => normalA(y) + vectorA(y), z => normalA(z) + vectorA(z));
+	begin
+		return retVal;
+	end "+";
+
+	function "-" (normalA : in Normal; vectorA : in Vector) return Vector is
+		retVal : Vector := (x => normalA(x) - vectorA(x), y => normalA(y) - vectorA(y), z => normalA(z) - vectorA(z));
+	begin
+		return retVal;
+	end "-";
+
+    function magnitude(normalA : in Normal) return double is
+        retVal : double := Sqrt(normalA(x)**2 + normalA(y)**2 + normalA(z)**2);
+    begin
+        return retVal;
+    end magnitude;
+
+	function normalize(normalA : in Normal) return Normal is
+		mag : double := magnitude(normalA);
+		retVal : Normal := (x => normalA(x)/mag, y => normalA(y)/mag, z => normalA(z)/mag);
+	begin
+		return retVal;
+	end normalize;
+
+	function dot(normalA : in Normal; vectorA : in Vector) return double is
+		retVal : double := (normalA(x) * vectorA(x)) + (normalA(y) * vectorA(y)) + (normalA(z) * vectorA(z));	
+	begin
+		return retVal;
+	end dot;
+
+	function orthogonal(normalA : in Normal; vectorA : in Vector) return boolean is
+		retVal : boolean := dot(normalA, vectorA) = 0.0;
+	begin
+		return retVal;
+	end orthogonal;
+
+	function cross(normalA : in Normal; vectorA : in Vector) return Vector is
+		retVal : Vector := (x => normalA(y) * vectorA(z) - normalA(z) * vectorA(y),
+							y => normalA(z) * vectorA(x) - normalA(x) * vectorA(z),
+							z => normalA(x) * vectorA(y) - normalA(y) * vectorA(x));
+	begin	
+		return retVal;
+	end cross;
+
+	function inverse(normalA : in Normal) return Normal is
+		retVal : Normal := (x => -normalA(x), y => -normalA(y), z => -normalA(z));
+	begin
+		return retVal;
+	end inverse;
+
+	function to_vector(normalA : in Normal) return Vector is
+		retVal : Vector := (x => normalA(x), y => normalA(y), z => normalA(z));
+	begin
+		return retVal;
+	end to_vector;
+
+	function image(normalA : in Normal) return String is
+		retVal : String := "Normal (x => " & double'image(normalA(x)) & ", y => " & double'image(normalA(y)) & ", z => " & double'image(normalA(z)) & ")"; 
+	begin
+		return retVal;
+	end image;
 
 end Geometry;

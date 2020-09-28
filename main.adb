@@ -20,9 +20,11 @@ with Numbers; use Numbers;
 
 procedure main is
     p : Point := (x => 3.1, y => 4.2, z => 6.3);
-	v : Vector := (x => 1.0, y=> 1.0, z => 1.0);
+	v : Vector := (x => 1.0, y => 1.0, z => 1.0);
+	n : Normal := (x => 2.3, y => 3.4, z => 4.5);
 begin
     Ada.Text_IO.Put_Line(Image(p));
 	Ada.Text_IO.Put_Line(Image(v));
+	Ada.Text_IO.Put_Line(Image(n));
 end main;
 
